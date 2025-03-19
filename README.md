@@ -68,7 +68,7 @@ Edit the `config.json` file to set the server address and ports:
 
 1. Start the chat application:
    ```bash
-   go run gochat.go
+   go run chat.go
    ```
 2. Enter your name when prompted.
 3. The application will attempt to connect to your friend's chat instance. If the connection is successful, you can start chatting.
@@ -91,14 +91,14 @@ The file will be sent to your chat partner, and they will receive it in the same
 
 1. User A starts the chat application:
    ```bash
-   go run gochat.go
+   go run chat.go
    ```
    - Uses `your_port: 8080` and `friend_port: 8000`.
    - Enters name: `Alice`.
 
 2. User B starts the chat application:
    ```bash
-   go run gochat.go
+   go run chat.go
    ```
    - Uses `your_port: 8000` and `friend_port: 8080`.
    - Enters name: `Bob`.
