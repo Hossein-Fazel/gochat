@@ -9,14 +9,11 @@ import (
 
 func handleConnection(conn net.Conn) {
 	defer conn.Close()
-	clientAddr := conn.RemoteAddr().String()
-	fmt.Printf("Client connected: %s\n", clientAddr)
 
 	reader := bufio.NewReader(conn)
 	for {
 		message, err := reader.ReadString('\n')
 		if err != nil {
-			fmt.Printf("Client disconnected: %s\n", clientAddr)
 			return
 		}
 		message = strings.TrimSpace(message)
@@ -24,14 +21,14 @@ func handleConnection(conn net.Conn) {
 	}
 }
 
-func StartServer() {
-	listener, err := net.Listen("tcp", ":8080")
+func StartServer(server string, port int) {
+	listener, err := net.Listen("tcp", fmt.Sprintf("%v:%v", server, port))
 	if err != nil {
 		fmt.Println("Error starting server:", err)
 		return
 	}
 	defer listener.Close()
-	fmt.Println("Server started on localhost:8080")
+	fmt.Printf("Server started on %v:%v", server, port)
 
 	for {
 		conn, err := listener.Accept()

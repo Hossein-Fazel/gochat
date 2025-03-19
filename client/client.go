@@ -7,17 +7,23 @@ import (
 	"os"
 	"strings"
 	"sync"
+	"time"
 )
 
-func StartClient(wg *sync.WaitGroup) {
-	conn, err := net.Dial("tcp", "localhost:8080")
-	if err != nil {
-		fmt.Println("Error connecting to server:", err)
-		return
+func StartClient(wg *sync.WaitGroup, server string, port int, name string) {
+	var conn net.Conn
+	var err error
+	for {
+		conn, err = net.Dial("tcp", fmt.Sprintf("%v:%v", server, port))
+		if err == nil {
+			fmt.Println("Your friend is online")
+			break
+		}
+		fmt.Println("Your friend is offline")
+		time.Sleep(2 * time.Second)
 	}
+
 	defer conn.Close()
-	
-	fmt.Println("Connected to server")
 
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
@@ -25,7 +31,7 @@ func StartClient(wg *sync.WaitGroup) {
 		if strings.ToLower(message) == "exit"{
 			wg.Done()
 		}else{
-			_, err := conn.Write([]byte(message + "\n"))
+			_, err := conn.Write([]byte(fmt.Sprintf("%v : ", name) + message + "\n"))
 			if err != nil {
 				fmt.Println("Error sending message:", err)
 				return
