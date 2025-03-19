@@ -1,86 +1,98 @@
-# Simple Chat Application
+# GoChat
 
-This is a simple chat application written in Python that allows two users to communicate over a network. The application supports text messaging and file transfers between users.
+GoChat is a simple command-line chat application written in Go. It allows two users to communicate over a local network or the internet. The application supports both text messaging and file transfers.
 
 ## Features
 
-- **Text Chat**: Send and receive text messages in real-time.
-- **File Transfer**: Send files to the other user.
-- **Configurable**: Uses a `config.json` file to specify server and port settings.
+- **Real-time Messaging**: Send and receive messages in real-time.
+- **File Transfer**: Send files to your chat partner.
+- **Simple Configuration**: Configure the server and ports using a `config.json` file.
+- **Cross-Platform**: Works on Windows, macOS, and Linux.
 
-## Prerequisites
+## Project Structure
 
-- Python version 3
+├── chat.go
+├── client
+│   └── client.go
+├── config.json
+├── go.mod
+├── server
+│   └── server.go
 
-## Installation
 
-1. Clone the repository or download the source code.
+- **chat.go**: The main entry point of the application. It handles the configuration and starts the client and server.
+- **client/client.go**: Contains the client logic for sending messages and files.
+- **server/server.go**: Contains the server logic for receiving messages and files.
+- **config.json**: Configuration file for setting the server address and ports.
+
+## Getting Started
+
+### Prerequisites
+
+- Go installed on your machine (version 1.16 or higher recommended).
+
+### Installation
+
+1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/simple-chat-app.git
-   cd simple-chat-app
+   git clone https://github.com/yourusername/gochat.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd gochat
    ```
 
-2. Install the required dependencies listed in `requirements.txt`:
+### Configuration
+
+Edit the `config.json` file to set the server address and ports:
+
+```json
+{
+    "server": "localhost",
+    "your_port": 8080,
+    "friend_port": 8000
+}
+```
+
+- `server`: The IP address or hostname of the server.
+- `your_port`: The port on which your instance of the chat application will listen.
+- `friend_port`: The port on which your friend's instance of the chat application will listen.
+
+### Running the Application
+
+1. Start the chat application:
    ```bash
-   pip install -r requirements.txt
+   go run gochat.go
    ```
+2. Enter your name when prompted.
+3. The application will attempt to connect to your friend's chat instance. If the connection is successful, you can start chatting.
 
-3. **Configure the Application**:
-   - The project already includes a `config.json` file with the necessary configuration. Here's what each field means:
-     ```json
-     {
-         "server": "localhost",
-         "your_port": 8080,
-         "friend_port": 8000
-     }
-     ```
-     - `server`: The IP address or hostname of the server. Use `localhost` for local testing.
-     - `your_port`: The port on which your server will listen for incoming connections.
-     - `friend_port`: The port on which your friend's server is listening. This is where your client will connect.
-
-   - Make sure the `your_port` and `friend_port` values are different for each user to avoid conflicts.
-
-## Usage
-
-1. **Run the Server and Client**:
-   - Open two terminal windows.
-   - In the first terminal, run the chat application:
-     ```bash
-     python chat.py
-     ```
-   - Enter your name when prompted.
-
-2. **Start Chatting**:
+### Start Chatting:
    - Type your messages in the terminal and press `Enter` to send them.
    - To exit the chat, type `exit`.
 
-3. **File Transfer**:
-   - To send a file, use the following format:
-     ```
-     <SEND /path/to/your/file>
-     ```
-   - When a file is sent, the receiving user will see a notification, and the file will be saved in the current directory.
+### Sending Files
 
-## Code Structure
+To send a file, use the following command in the chat:
 
-- `chat.py`: The main script that starts the server and client threads.
-- `server.py`: Handles incoming connections and messages from clients.
-- `client.py`: Connects to the server and sends messages/files.
-- `config.json`: Contains configuration settings for the server and ports.
-- `requirements.txt`: Lists the Python library dependencies for the project.
+```
+<SEND /path/to/your/file>
+```
 
-## Example
+The file will be sent to your chat partner, and they will receive it in the same directory where their chat application is running.
+
+## Usage
 
 1. User A starts the chat application:
    ```bash
-   python chat.py
+   go run gochat.go
    ```
    - Uses `your_port: 8080` and `friend_port: 8000`.
    - Enters name: `Alice`.
 
 2. User B starts the chat application:
    ```bash
-   python chat.py
+   go run gochat.go
    ```
    - Uses `your_port: 8000` and `friend_port: 8080`.
    - Enters name: `Bob`.
