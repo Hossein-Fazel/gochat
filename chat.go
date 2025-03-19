@@ -3,8 +3,10 @@ import(
 	"fmt"
 	"sync"
 	"os"
+	"os/exec"
 	"bufio"
 	"strings"
+	"runtime"
 	"encoding/json"
 	"gochat/client"
 	"gochat/server"
@@ -16,7 +18,23 @@ type Config struct{
 	Friend_port int `json:"friend_port"`
 }
 
+func clearScreen() {
+    var cmd *exec.Cmd
+    if runtime.GOOS == "windows" {
+        cmd = exec.Command("cmd", "/c", "cls") // Windows
+    } else {
+        cmd = exec.Command("clear") // Unix-like systems
+    }
+
+    cmd.Stdout = os.Stdout
+    err := cmd.Run()
+    if err != nil {
+        fmt.Println("Error clearing screen:", err)
+    }
+}
+
 func main(){
+	clearScreen()
 	var wg sync.WaitGroup
 	var config Config
 	data, err := os.ReadFile("config.json")
