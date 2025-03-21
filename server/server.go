@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 	"strings"
+	"strconv"
 )
 
 func handleConnection(conn net.Conn) {
@@ -28,17 +29,16 @@ func handleConnection(conn net.Conn) {
 			defer file.Close()
 			
 			fmt.Printf("Receiving file '%v' (%v bytes)\n", parts[1], parts[2][:len(parts[2])-1])
+			fsize,_ := strconv.Atoi(parts[2][:len(parts[2])-1])
 			buffer := make([]byte, 4096)
-			for {
+			for fsize > 0 {
 				count, err := reader.Read(buffer)
 				if err != nil{
 					fmt.Println("An error occurred")
 					return
 				}
-				if string(buffer[:count]) == "<END>"{
-					break
-				}
 
+				fsize -= count
 				file.Write(buffer[:count])
 			}
 			fmt.Printf("File '%v' received successfully.\n", parts[1])

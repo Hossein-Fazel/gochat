@@ -64,7 +64,6 @@ func send_file(file_info os.FileInfo, file_path string, conn net.Conn){
 		count, err := file.Read(buffer)
 		if err != nil{
 			if count == 0{
-				conn.Write([]byte("<END>"))
 				break
 			}
 			fmt.Println("An error occurred")
