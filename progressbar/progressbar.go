@@ -67,7 +67,7 @@ func (pbar *Progressbar) Set_start(start int) error{
 func (pbar *Progressbar) Set_size(size int){
 	pbar.Size = size
 	if size != 50{
-		pbar.Scale = math.Round(100.0 / float64(pbar.Start) * 1000) / 1000
+		pbar.Scale = math.Round(100.0 / float64(pbar.Size) * 1000) / 1000
 	}
 }
 
