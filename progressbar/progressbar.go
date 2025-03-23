@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"strings"
+	"unicode/utf8"
 )
 
 type Progressbar struct{
@@ -20,7 +21,7 @@ type Progressbar struct{
 }
 
 func NewProgressBar() Progressbar{
-	return Progressbar{
+	pbar := Progressbar{
 		Filled: "#",
 		Empty_char: " ",
 		Total: 100,
@@ -31,10 +32,12 @@ func NewProgressBar() Progressbar{
 		Scale: 2.0,
 		IsStop: false,
 	}
+	pbar.Reset()
+	return pbar
 }
 
 func (pbar *Progressbar) Set_filled(filled string) error{
-	if len(filled) > 1{
+	if utf8.RuneCountInString(filled) != 1 {
 		return errors.New("filled size must be 1")
 	}
 	pbar.Filled = filled
@@ -43,7 +46,7 @@ func (pbar *Progressbar) Set_filled(filled string) error{
 }
 
 func (pbar *Progressbar) Set_emptyChar(char string) error{
-	if len(char) > 1{
+	if utf8.RuneCountInString(char) != 1 {
 		return errors.New("char size must be 1")
 	}
 	pbar.Empty_char = char
@@ -81,7 +84,14 @@ func (pbar *Progressbar) Reset(){
 func (pbar *Progressbar) Update(value int){
 	if !pbar.IsStop {
 		pbar.Spent += value
-		percent := math.Round(float64(pbar.Spent)/ float64(pbar.Total) * 1000) / 10
+		percent := (float64(pbar.Spent) / float64(pbar.Total)) * 100
+
+		if percent > 100 {
+			percent = 100
+		}
+
+		percent = math.Round(percent*10) / 10
+
 		progress := int(math.Floor(percent/ pbar.Scale))
 		pbar.PBar = fmt.Sprintf("\r[%v%v] %.1f%%", strings.Repeat(pbar.Filled, progress), strings.Repeat(pbar.Empty_char, pbar.Size - progress), percent)
 	}else{
