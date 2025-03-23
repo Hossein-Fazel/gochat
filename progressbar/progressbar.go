@@ -9,6 +9,7 @@ import (
 
 type Progressbar struct{
 	Filled string
+	Empty_char string
 	Total int
 	Start int
 	Spent int
@@ -21,6 +22,7 @@ type Progressbar struct{
 func NewProgressBar() Progressbar{
 	return Progressbar{
 		Filled: "#",
+		Empty_char: " ",
 		Total: 100,
 		Size: 50,
 		Start: 0,
@@ -36,6 +38,15 @@ func (pbar *Progressbar) Set_filled(filled string) error{
 		return errors.New("filled size must be 1")
 	}
 	pbar.Filled = filled
+
+	return nil
+}
+
+func (pbar *Progressbar) Set_emptyChar(char string) error{
+	if len(char) > 1{
+		return errors.New("char size must be 1")
+	}
+	pbar.Empty_char = char
 
 	return nil
 }
@@ -64,7 +75,7 @@ func (pbar *Progressbar) Reset(){
 	pbar.IsStop = false
 	percent := math.Round(float64(pbar.Start)/ float64(pbar.Total) * 1000) / 10
 	progress := int(math.Floor(percent/ pbar.Scale))
-	pbar.PBar = fmt.Sprintf("\r[%v%v] %.1f%%", strings.Repeat(pbar.Filled, progress), strings.Repeat(" ", pbar.Size - progress), percent)
+	pbar.PBar = fmt.Sprintf("\r[%v%v] %.1f%%", strings.Repeat(pbar.Filled, progress), strings.Repeat(pbar.Empty_char, pbar.Size - progress), percent)
 }
 
 func (pbar *Progressbar) Update(value int){
@@ -72,7 +83,7 @@ func (pbar *Progressbar) Update(value int){
 		pbar.Spent += value
 		percent := math.Round(float64(pbar.Spent)/ float64(pbar.Total) * 1000) / 10
 		progress := int(math.Floor(percent/ pbar.Scale))
-		pbar.PBar = fmt.Sprintf("\r[%v%v] %.1f%%", strings.Repeat(pbar.Filled, progress), strings.Repeat(" ", pbar.Size - progress), percent)
+		pbar.PBar = fmt.Sprintf("\r[%v%v] %.1f%%", strings.Repeat(pbar.Filled, progress), strings.Repeat(pbar.Empty_char, pbar.Size - progress), percent)
 	}else{
 		fmt.Println("This progress bar has stopped")
 	}
