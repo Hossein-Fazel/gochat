@@ -8,6 +8,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"gochat/progressbar"
 )
 
 func StartClient(wg *sync.WaitGroup, server string, port int, name string) {
@@ -60,6 +61,9 @@ func send_file(file_info os.FileInfo, file_path string, conn net.Conn){
 	file, _ := os.Open(file_path)
 	defer file.Close()
 	buffer := make([]byte, 4096)
+	pbar := progressbar.NewProgressBar()
+	pbar.Set_filled("-")
+	pbar.Set_total(int(file_info.Size()))
 	for {
 		count, err := file.Read(buffer)
 		if err != nil{
@@ -71,10 +75,13 @@ func send_file(file_info os.FileInfo, file_path string, conn net.Conn){
 		}
 
 		_, err = conn.Write(buffer[:count])
+		pbar.Update(count)
+		pbar.Show()
 		if err != nil {
 			fmt.Println("Error sending file:", err)
 			return
 		}
 	}
+	pbar.Stop()
 	fmt.Printf("File '%v' sent successfully.\n", file_info.Name())
 }

@@ -7,6 +7,7 @@ import (
 	"os"
 	"strings"
 	"strconv"
+	"gochat/progressbar"
 )
 
 func handleConnection(conn net.Conn) {
@@ -31,6 +32,9 @@ func handleConnection(conn net.Conn) {
 			fmt.Printf("Receiving file '%v' (%v bytes)\n", parts[1], parts[2][:len(parts[2])-1])
 			fsize,_ := strconv.Atoi(parts[2][:len(parts[2])-1])
 			buffer := make([]byte, 4096)
+			pbar := progressbar.NewProgressBar()
+			pbar.Set_filled("-")
+			pbar.Set_total(fsize)
 			for fsize > 0 {
 				count, err := reader.Read(buffer)
 				if err != nil{
@@ -40,7 +44,10 @@ func handleConnection(conn net.Conn) {
 
 				fsize -= count
 				file.Write(buffer[:count])
+				pbar.Update(count)
+				pbar.Show()
 			}
+			pbar.Stop()
 			fmt.Printf("File '%v' received successfully.\n", parts[1])
 
 		}else{
