@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 	"time"
-	"gochat/progressbar"
+	"github.com/Hossein-Fazel/Gobar/progressbar"
 )
 
 func StartClient(wg *sync.WaitGroup, server string, port int, name string) {

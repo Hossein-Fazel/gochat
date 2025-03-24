@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 	"strconv"
-	"gochat/progressbar"
+	"github.com/Hossein-Fazel/Gobar/progressbar"
 )
 
 func handleConnection(conn net.Conn) {
