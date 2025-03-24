@@ -47,6 +47,10 @@ GoChat is a simple command-line chat application written in Go. It allows two us
    ```bash
    cd gochat
    ```
+3. To install dependencies, run the following command:
+   ```bash
+   go mod tidy
+   ```
 
 ### Configuration
 
