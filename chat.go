@@ -13,8 +13,9 @@ import(
 )
 
 type Config struct{
-	Server string `json:"server"`
+	Your_erver string `json:"your_server"`
 	Your_port int `json:"your_port"`
+	Friend_server string `json:"friend_server"`
 	Friend_port int `json:"friend_port"`
 }
 
@@ -57,8 +58,8 @@ func main(){
 	name, _ := reader.ReadString('\n')
 
 	wg.Add(1)
-	go server.StartServer(config.Server, config.Your_port)
-	go client.StartClient(&wg, config.Server, config.Friend_port, strings.TrimSpace(name))
+	go server.StartServer(config.Your_erver, config.Your_port)
+	go client.StartClient(&wg, config.Friend_server, config.Friend_port, strings.TrimSpace(name))
 	wg.Wait()
 
 	fmt.Println("\t\t*** Closing the app ***")

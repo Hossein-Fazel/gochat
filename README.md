@@ -54,19 +54,21 @@ GoChat is a simple command-line chat application written in Go. It allows two us
 
 ### Configuration
 
-Edit the `config.json` file to set the server address and ports:
+   - Edit the `config.json` file to set the server address and ports:
+      ```json
+      {
+         "your_server": "0.0.0.0",
+         "your_port": 8080,
+         "friend_server" : "0.0.0.0"
+         "friend_port": 8000
+      }
+      ```
+      - `your_server`: The IP address or hostname of your server. Use `localhost` for local testing.
+      - `your_port`: The port on which your server will listen for incoming connections.
+      - `friend_server`: The IP address or hostname of friend server. Use `localhost` for local testing.
+      - `friend_port`: The port on which your friend's server is listening. This is where your client will connect.
 
-```json
-{
-    "server": "localhost",
-    "your_port": 8080,
-    "friend_port": 8000
-}
-```
-
-- `server`: The IP address or hostname of the server.
-- `your_port`: The port on which your instance of the chat application will listen.
-- `friend_port`: The port on which your friend's instance of the chat application will listen.
+- Make sure the `your_port` and `friend_port` values are different for each user to avoid conflicts.
 
 ### Running the Application
 

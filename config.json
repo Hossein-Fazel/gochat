@@ -1,5 +1,6 @@
 {
-    "server" : "localhost",
+    "your_server" : "0.0.0.0",
     "your_port" : 8080,
+    "friend_server" : "0.0.0.0",
     "friend_port" : 8000
 }
