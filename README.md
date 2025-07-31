@@ -12,17 +12,11 @@ GoChat is a simple command-line chat application written in Go. It allows two us
 ## Project Structure
 
 ├── chat.go
-
 ├── client
-
 │   └── client.go
-
 ├── config.json
-
 ├── go.mod
-
 ├── server
-
 │   └── server.go
 
 
