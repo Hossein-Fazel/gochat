@@ -6,13 +6,12 @@ import (
 	"net"
 	"os"
 	"strings"
-	"sync"
 	"time"
 
 	"github.com/Hossein-Fazel/Gobar/progressbar"
 )
 
-func StartClient(wg *sync.WaitGroup, server string, port int, name string) {
+func StartClient(server string, port int, name string) {
 	var conn net.Conn
 	var err error
 	for {
@@ -32,7 +31,7 @@ func StartClient(wg *sync.WaitGroup, server string, port int, name string) {
 		message := scanner.Text()
 		message = strings.TrimSpace(message)
 		if strings.ToLower(message) == "exit" {
-			wg.Done()
+			return
 		} else if len(message) >= 6 && message[:6] == "<SEND " {
 			fp := message[6 : len(message)-1]
 			finfo, err := os.Stat(fp)
