@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"net"
 	"os"
-	"strings"
 	"strconv"
+	"strings"
+
 	"github.com/Hossein-Fazel/Gobar/progressbar"
 )
 
@@ -20,24 +21,24 @@ func handleConnection(conn net.Conn) {
 			return
 		}
 		message = strings.TrimSpace(message)
-		if len(message) >= 9 && message[:9] == "<RECEIVE:"{
+		if len(message) >= 9 && message[:9] == "<RECEIVE:" {
 			parts := strings.Split(message, ":")
-		
+
 			file, err := os.Create(parts[1])
-			if err != nil{
+			if err != nil {
 				fmt.Printf("An error occurred: %v\n", err)
 			}
 			defer file.Close()
-			
+
 			fmt.Printf("Receiving file '%v' (%v bytes)\n", parts[1], parts[2][:len(parts[2])-1])
-			fsize,_ := strconv.Atoi(parts[2][:len(parts[2])-1])
+			fsize, _ := strconv.Atoi(parts[2][:len(parts[2])-1])
 			buffer := make([]byte, 4096)
 			pbar := progressbar.NewProgressBar()
 			pbar.Set_filled("-")
 			pbar.Set_total(fsize)
 			for fsize > 0 {
 				count, err := reader.Read(buffer)
-				if err != nil{
+				if err != nil {
 					fmt.Println("An error occurred")
 					return
 				}
@@ -50,7 +51,7 @@ func handleConnection(conn net.Conn) {
 			pbar.Stop()
 			fmt.Printf("File '%v' received successfully.\n", parts[1])
 
-		}else{
+		} else {
 			fmt.Printf("%s\n", message)
 		}
 	}
