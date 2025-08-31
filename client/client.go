@@ -8,6 +8,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+
 	"github.com/Hossein-Fazel/Gobar/progressbar"
 )
 
@@ -30,17 +31,17 @@ func StartClient(wg *sync.WaitGroup, server string, port int, name string) {
 	for scanner.Scan() {
 		message := scanner.Text()
 		message = strings.TrimSpace(message)
-		if strings.ToLower(message) == "exit"{
+		if strings.ToLower(message) == "exit" {
 			wg.Done()
-		}else if len(message) >= 6 && message[:6] == "<SEND " {
-			fp := message[6: len(message)-1]
+		} else if len(message) >= 6 && message[:6] == "<SEND " {
+			fp := message[6 : len(message)-1]
 			finfo, err := os.Stat(fp)
-			if err != nil{
+			if err != nil {
 				fmt.Println(err)
 				continue
 			}
 			send_file(finfo, fp, conn)
-		}else{
+		} else {
 			_, err := conn.Write([]byte(fmt.Sprintf("%v : %v\n", name, message)))
 			if err != nil {
 				fmt.Println("Error sending message:", err)
@@ -50,11 +51,11 @@ func StartClient(wg *sync.WaitGroup, server string, port int, name string) {
 	}
 }
 
-func send_file(file_info os.FileInfo, file_path string, conn net.Conn){
+func send_file(file_info os.FileInfo, file_path string, conn net.Conn) {
 	var header string = fmt.Sprintf("<RECEIVE:%v:%v>\n", file_info.Name(), file_info.Size())
 
 	_, err := conn.Write([]byte(header))
-	if err != nil{
+	if err != nil {
 		fmt.Println("Error sending file:", err)
 		return
 	}
@@ -66,8 +67,8 @@ func send_file(file_info os.FileInfo, file_path string, conn net.Conn){
 	pbar.Set_total(int(file_info.Size()))
 	for {
 		count, err := file.Read(buffer)
-		if err != nil{
-			if count == 0{
+		if err != nil {
+			if count == 0 {
 				break
 			}
 			fmt.Println("An error occurred")
