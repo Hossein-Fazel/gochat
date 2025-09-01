@@ -1,50 +1,51 @@
 package main
-import(
-	"fmt"
-	"os"
-	"os/exec"
+
+import (
 	"bufio"
-	"strings"
-	"runtime"
 	"encoding/json"
+	"fmt"
 	"gochat/client"
 	"gochat/server"
+	"os"
+	"os/exec"
+	"runtime"
+	"strings"
 )
 
-type Config struct{
-	Your_erver string `json:"your_server"`
-	Your_port int `json:"your_port"`
+type Config struct {
+	Your_erver    string `json:"your_server"`
+	Your_port     int    `json:"your_port"`
 	Friend_server string `json:"friend_server"`
-	Friend_port int `json:"friend_port"`
+	Friend_port   int    `json:"friend_port"`
 }
 
 func clearScreen() {
-    var cmd *exec.Cmd
-    if runtime.GOOS == "windows" {
-        cmd = exec.Command("cmd", "/c", "cls")
-    } else {
-        cmd = exec.Command("clear")
-    }
+	var cmd *exec.Cmd
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("cmd", "/c", "cls")
+	} else {
+		cmd = exec.Command("clear")
+	}
 
-    cmd.Stdout = os.Stdout
-    err := cmd.Run()
-    if err != nil {
-        fmt.Println("Error clearing screen:", err)
-    }
+	cmd.Stdout = os.Stdout
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println("Error clearing screen:", err)
+	}
 }
 
-func main(){
+func main() {
 	clearScreen()
 	var config Config
 	data, err := os.ReadFile("config.json")
-	if err != nil{
+	if err != nil {
 		fmt.Println("Config file does not exist")
 		os.Exit(0)
 	}
 
 	err = json.Unmarshal(data, &config)
 
-	if err != nil{
+	if err != nil {
 		fmt.Println("Config file is corrupt")
 		os.Exit(0)
 	}
