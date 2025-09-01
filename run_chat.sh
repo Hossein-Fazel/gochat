@@ -117,7 +117,7 @@ swap_ports
 
 # Run the second instance
 echo "Starting second instance..."
-if [ "$TERMINAL" = "none" ]; 
+if [ "$TERMINAL" = "none" ];  then
     # Run in foreground if no terminal available
     ./gochat
 else
