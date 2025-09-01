@@ -14,15 +14,18 @@ import (
 func StartClient(server string, port int, name string) {
 	var conn net.Conn
 	var err error
+	printMsg := false
 	for {
-		conn, err = net.Dial("tcp", fmt.Sprintf("%v:%v", server, port))
-		if err == nil {
-			fmt.Println("Your friend is online")
+		if conn, err = net.Dial("tcp", fmt.Sprintf("%v:%v", server, port)) ; err == nil {
 			break
 		}
-		fmt.Println("Your friend is offline")
-		time.Sleep(2 * time.Second)
+		if !printMsg {
+			fmt.Println(Red + "Wating for your friend...." + Reset)
+			printMsg = true
+		}
+		time.Sleep(500 * time.Millisecond)
 	}
+	fmt.Println(Green + "Your friend is online" + Reset)
 
 	defer conn.Close()
 
