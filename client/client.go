@@ -29,6 +29,17 @@ func StartClient(server string, port int, name string) {
 
 	defer conn.Close()
 
+	go func() {
+		buf := make([]byte, 1024)
+		for {
+			_, err := conn.Read(buf)
+			if err != nil {
+				fmt.Println(Red + "\nYour friend disconnected." + Reset)
+				os.Exit(0)
+			}
+		}
+	}()
+
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		message := scanner.Text()
