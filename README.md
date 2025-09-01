@@ -66,12 +66,20 @@ GoChat is a simple command-line chat application written in Go. It allows two us
 
 ### Running the Application
 
+**Using command line**:
 1. Start the chat application:
    ```bash
    go run chat.go
    ```
 2. Enter your name when prompted.
 3. The application will attempt to connect to your friend's chat instance. If the connection is successful, you can start chatting.
+
+**Using script**
+1. run this command on you terminal
+   ```bash
+   ./run_chat.sh
+   ```
+   this command create two terminals and run chat with correct configs on each one of them. Use `ctrl+D `to stpo terminals
 
 ### Start Chatting:
    - Type your messages in the terminal and press `Enter` to send them.
