@@ -9,22 +9,6 @@ GoChat is a simple command-line chat application written in Go. It allows two us
 - **Simple Configuration**: Configure the server and ports using a `config.json` file.
 - **Cross-Platform**: Works on Windows, macOS, and Linux.
 
-## Project Structure
-
-├── chat.go
-├── client
-│   └── client.go
-├── config.json
-├── go.mod
-├── server
-│   └── server.go
-
-
-- **chat.go**: The main entry point of the application. It handles the configuration and starts the client and server.
-- **client/client.go**: Contains the client logic for sending messages and files.
-- **server/server.go**: Contains the server logic for receiving messages and files.
-- **config.json**: Configuration file for setting the server address and ports.
-
 ## Getting Started
 
 ### Prerequisites
@@ -112,3 +96,26 @@ The file will be sent to your chat partner, and they will receive it in the same
    - Enters name: `Bob`.
 
 3. Alice and Bob can now chat and send files to each other.
+
+
+
+## Project Structure
+```
+gochat
+├── chat.go
+├── client
+│   ├── client.go
+│   └── colors.go
+├── config.json
+├── go.mod
+├── go.sum
+├── main_test.go
+├── README.md
+├── run_chat.sh
+└── server
+    └── server.go
+```
+- **chat.go**: The main entry point of the application. It handles the configuration and starts the client and server.
+- **client/client.go**: Contains the client logic for sending messages and files.
+- **server/server.go**: Contains the server logic for receiving messages and files.
+- **config.json**: Configuration file for setting the server address and ports.
