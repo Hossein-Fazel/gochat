@@ -13,7 +13,7 @@ import (
 )
 
 type Config struct {
-	Your_erver    string `json:"your_server"`
+	Your_server   string `json:"your_server"`
 	Your_port     int    `json:"your_port"`
 	Friend_server string `json:"friend_server"`
 	Friend_port   int    `json:"friend_port"`
@@ -56,7 +56,7 @@ func main() {
 	fmt.Print("Enter your name : ")
 	name, _ := reader.ReadString('\n')
 
-	go server.StartServer(config.Your_erver, config.Your_port)
+	go server.StartServer(config.Your_server, config.Your_port)
 	client.StartClient(config.Friend_server, config.Friend_port, strings.TrimSpace(name))
 
 	fmt.Println("\t\t*** Closing the app ***")
